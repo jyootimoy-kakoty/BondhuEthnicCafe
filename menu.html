@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bondhu Ethnic Cafe — Menu</title>
+<style>
+:root{--bg:#faf6f0;--card:#fff;--ink:#2b211b;--mute:#7a6a5f;--accent:#a4572b;--line:#eadfd3;--veg:#2e9e4f;--nonveg:#c0392b;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1511;--card:#251d18;--ink:#f3e9df;--mute:#a8978a;--accent:#e0955f;--line:#382d25}}
+:root[data-theme="dark"]{--bg:#1b1511;--card:#251d18;--ink:#f3e9df;--mute:#a8978a;--accent:#e0955f;--line:#382d25}
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,'Times New Roman',serif;-webkit-text-size-adjust:100%}
+header{text-align:center;padding:28px 20px 16px}
+header h1{margin:0;font-size:30px;letter-spacing:.5px}
+header p{margin:6px 0 0;color:var(--mute);font-family:system-ui,sans-serif;font-size:14px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:8px;overflow-x:auto;padding:10px 16px;border-bottom:1px solid var(--line);scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button{flex:none;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 16px;border-radius:20px;font:600 14px system-ui,sans-serif}
+nav button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+main{max-width:640px;margin:0 auto;padding:8px 16px 40px}
+h2{font-size:22px;margin:26px 0 10px;color:var(--accent)}
+.item{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:10px;display:flex;gap:12px;justify-content:space-between}
+.item h3{margin:0;font-size:17px;display:flex;align-items:center;gap:8px}
+.item p{margin:4px 0 0;color:var(--mute);font:13px/1.4 system-ui,sans-serif}
+.price{font:700 16px system-ui,sans-serif;white-space:nowrap}
+.dot{width:12px;height:12px;border:1.5px solid var(--veg);border-radius:2px;display:inline-grid;place-items:center;flex:none}
+.dot::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--veg)}
+.dot.nv{border-color:var(--nonveg)}.dot.nv::after{background:var(--nonveg)}
+footer{text-align:center;color:var(--mute);font:12px/1.6 system-ui,sans-serif;padding:0 20px 32px}
+</style>
+</head>
+<body>
+<header><h1>Bondhu Ethnic Cafe</h1><p>Freshly brewed · Made to order</p></header>
+<nav id="nav"></nav>
+<main id="menu"></main>
+<footer>Prices in ₹, inclusive of taxes.<br>Please tell us about any allergies when ordering.</footer>
+<script>
+var M=[
+{n:"Coffee",i:[["Espresso","Rich, bold single shot",90,1],["Cappuccino","Espresso with steamed milk and foam",140,1],["Café Latte","Smooth and milky",150,1],["Filter Coffee","South Indian style, frothy",80,1],["Caramel Macchiato","Vanilla, milk, espresso, caramel drizzle",190,1]]},
+{n:"Cold Drinks",i:[["Cold Coffee","Blended with ice cream",160,1],["Iced Tea","Lemon or peach",120,1],["Fresh Lime Soda","Sweet, salted or mixed",80,1],["Mango Smoothie","Seasonal mango, yogurt",170,1]]},
+{n:"Snacks",i:[["Veg Sandwich","Grilled, with mint chutney",130,1],["Chicken Sandwich","Grilled chicken, cheese, mayo",170,0],["Paneer Wrap","Tandoori paneer, onions, sauce",160,1],["French Fries","Crisp, with peri-peri seasoning",110,1],["Chicken Momos","Steamed, with spicy dip (6 pcs)",140,0]]},
+{n:"Desserts",i:[["Chocolate Brownie","Warm, with fudge sauce",120,1],["Cheesecake Slice","Classic baked",160,1],["Waffle","Honey or Nutella",150,1]]}
+];
+var nav=document.getElementById("nav"),menu=document.getElementById("menu");
+M.forEach(function(c,k){
+ var b=document.createElement("button");b.textContent=c.n;b.onclick=function(){document.getElementById("s"+k).scrollIntoView({behavior:"smooth"})};nav.appendChild(b);
+ var s=document.createElement("section");s.id="s"+k;
+ s.innerHTML="<h2>"+c.n+"</h2>"+c.i.map(function(x){return '<div class="item"><div><h3><span class="dot'+(x[3]?'':' nv')+'"></span>'+x[0]+'</h3><p>'+x[1]+'</p></div><div class="price">₹'+x[2]+'</div></div>'}).join("");
+ menu.appendChild(s);
+});
+var bs=nav.children;
+function act(){var y=window.scrollY+120,a=0;M.forEach(function(c,k){if(document.getElementById("s"+k).offsetTop<=y)a=k});
+ for(var i=0;i<bs.length;i++)bs[i].className=i==a?"on":""}
+window.addEventListener("scroll",act);act();
+</script>
+</body>
+</html>
